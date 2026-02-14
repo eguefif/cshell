@@ -7,6 +7,8 @@ Command get_command(Token token) {
     cmd.cmd = EXIT;
   } else if (strncmp(token.token, "echo", 4) == 0) {
     cmd.cmd = ECHO;
+  } else if (strncmp(token.token, "type", 4) == 0) {
+    cmd.cmd = TYPE;
   }
 
   return cmd;

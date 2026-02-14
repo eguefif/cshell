@@ -3,7 +3,8 @@
 char *get_input();
 Bool prompt();
 Bool execute(Prompt);
-void exec_echo(Prompt prompt);
+void exec_echo(Prompt);
+void exec_type(Token);
 
 int main() {
   // Flush after every printf
@@ -39,7 +40,9 @@ Bool prompt() {
   printf("$ ");
   char *input = get_input();
   Prompt prompt = parse(input);
-  return execute(prompt);
+  int retval = execute(prompt);
+  free(input);
+  return retval;
 }
 
 Bool execute(Prompt prompt) {
@@ -49,6 +52,9 @@ Bool execute(Prompt prompt) {
     break;
   case EXIT:
     return FALSE;
+  case TYPE:
+    exec_type(prompt.params[0]);
+    break;
   case NOTFOUND:
     printf("%s: command not found\n", prompt.cmd.token.token);
     break;
@@ -61,4 +67,22 @@ void exec_echo(Prompt prompt) {
     printf("%s ", prompt.params[i].token);
   }
   printf("%s\n", prompt.params[prompt.params_size - 1].token);
+}
+
+void exec_type(Token token) {
+  Command cmd = get_command(token);
+  switch (cmd.cmd) {
+  case ECHO:
+    printf("echo is a shell builtin\n");
+    break;
+  case EXIT:
+    printf("exit is a shell builtin\n");
+    break;
+  case TYPE:
+    printf("type is a shell builtin\n");
+    break;
+  case NOTFOUND:
+    printf("%s: not found\n", cmd.token.token);
+    break;
+  }
 }
