@@ -18,10 +18,14 @@ char *get_input() {
   return input;
 }
 
-void prompt() {
+int prompt() {
   printf("$ ");
   char *input = get_input();
+  if (strncmp(input, "exit", 50) == 0) {
+    return 0;
+  }
   printf("%s: command not found\n", input);
+  return 1;
 }
 
 int main() {
@@ -29,7 +33,9 @@ int main() {
   setbuf(stdout, NULL);
 
   while (1) {
-    prompt();
+    if (prompt() == 0) {
+      break;
+    }
   }
 
   return 0;
