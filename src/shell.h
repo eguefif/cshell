@@ -12,7 +12,8 @@ typedef enum myBool {
 } Bool;
 
 typedef enum myTokenType {
-  STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, REDIRECTION, EOP
+  STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, 
+  RIGHTREDIRECTION, LEFTREDIRECTION, EOP, DOLLAR
 } TokenType;
 
 typedef struct myToken {
