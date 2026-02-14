@@ -22,7 +22,7 @@ typedef struct myToken {
 } Token;
 
 typedef enum myCommandType {
-  TYPE, ECHO, EXIT, NOTFOUND,
+  TYPE, ECHO, EXIT, NOTFOUND, PROGRAM
 } CommandType;
 
 typedef struct myCommand {
@@ -38,6 +38,7 @@ typedef struct myPrompt {
 
 Prompt parse(char*);
 Token *tokenize(char*);
+Bool execute(Prompt prompt);
 
 Command get_command(Token token);
 
