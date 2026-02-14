@@ -7,6 +7,10 @@
 
 // Tokenizer and Parser functions
 
+typedef enum myBool {
+  TRUE, FALSE,
+} Bool;
+
 typedef enum myTokenType {
   STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, REDIRECTION, EOP
 } TokenType;

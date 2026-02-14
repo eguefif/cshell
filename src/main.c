@@ -1,8 +1,8 @@
 #include "shell.h"
 
 char *get_input();
-int prompt();
-void execute(Prompt);
+Bool prompt();
+Bool execute(Prompt);
 void exec_echo(Prompt prompt);
 
 int main() {
@@ -10,7 +10,7 @@ int main() {
   setbuf(stdout, NULL);
 
   while (1) {
-    if (prompt() == 0) {
+    if (prompt() == FALSE) {
       break;
     }
   }
@@ -19,6 +19,7 @@ int main() {
 }
 
 char *get_input() {
+  // Refactor, this value is arbitrary
   char *input = (char *)malloc(1000);
 
   fgets(input, 1000, stdin);
@@ -34,27 +35,25 @@ char *get_input() {
   return input;
 }
 
-int prompt() {
+Bool prompt() {
   printf("$ ");
   char *input = get_input();
   Prompt prompt = parse(input);
-  execute(prompt);
-  // printf("%s: command not found\n", input);
-  return 1;
+  return execute(prompt);
 }
 
-void execute(Prompt prompt) {
+Bool execute(Prompt prompt) {
   switch (prompt.cmd.cmd) {
   case ECHO:
     exec_echo(prompt);
     break;
   case EXIT:
-    exit(0);
-    break;
+    return FALSE;
   case NOTFOUND:
     printf("%s: command not found\n", prompt.cmd.token.token);
     break;
   }
+  return TRUE;
 }
 
 void exec_echo(Prompt prompt) {
