@@ -1,6 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
+
+char *get_input();
+int prompt();
+void execute(Prompt);
+void exec_echo(Prompt prompt);
+
+int main() {
+  // Flush after every printf
+  setbuf(stdout, NULL);
+
+  while (1) {
+    if (prompt() == 0) {
+      break;
+    }
+  }
+
+  return 0;
+}
 
 char *get_input() {
   char *input = (char *)malloc(1000);
@@ -21,22 +37,29 @@ char *get_input() {
 int prompt() {
   printf("$ ");
   char *input = get_input();
-  if (strncmp(input, "exit", 50) == 0) {
-    return 0;
-  }
-  printf("%s: command not found\n", input);
+  Prompt prompt = parse(input);
+  execute(prompt);
+  // printf("%s: command not found\n", input);
   return 1;
 }
 
-int main() {
-  // Flush after every printf
-  setbuf(stdout, NULL);
-
-  while (1) {
-    if (prompt() == 0) {
-      break;
-    }
+void execute(Prompt prompt) {
+  switch (prompt.cmd.cmd) {
+  case ECHO:
+    exec_echo(prompt);
+    break;
+  case EXIT:
+    exit(0);
+    break;
+  case NOTFOUND:
+    printf("%s: command not found\n", prompt.cmd.token.token);
+    break;
   }
+}
 
-  return 0;
+void exec_echo(Prompt prompt) {
+  for (int i = 0; i < prompt.params_size - 1; i++) {
+    printf("%s ", prompt.params[i].token);
+  }
+  printf("%s\n", prompt.params[prompt.params_size - 1].token);
 }
