@@ -58,4 +58,5 @@ char *trim_start(char *str);
 
 // File utils
 Bool is_exec_exist(char*);
+Bool find_exec(Token, char *, size_t);
 #endif

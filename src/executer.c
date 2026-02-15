@@ -56,29 +56,11 @@ void exec_type(Token token) {
 }
 
 void handle_type_program(Token token) {
-  // look into the PATH env for a list of paths
-  // then check where is the program
+  char fullpath[250];
 
-  char full_path[250];
-  char *paths = strdeepcopy(getenv("PATH"));
-  char *path = strtok(paths, ":");
-  while (path != NULL) {
-    if (strlen(path) + strlen(token.token) >= 250) {
-      continue;
-    }
-    memcpy(full_path, path, strlen(path) + 1);
-    strcat(full_path, "/\0");
-    strncat(full_path, token.token, strlen(token.token));
-    if (!is_exec_exist(full_path)) {
-      break;
-    }
-    path = strtok(NULL, ":");
-    full_path[0] = '\0';
-  }
-  if (full_path[0] == '\0') {
+  if (find_exec(token, fullpath, 250)) {
     printf("%s: not found\n", token.token);
   } else {
-    printf("%s is %s\n", token.token, full_path);
+    printf("%s is %s\n", token.token, fullpath);
   }
-  free(paths);
 }
