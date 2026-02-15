@@ -3,7 +3,7 @@
 // TODO: replace all int related to a size by size_t
 // TODO: handle error
 
-char *get_input();
+void get_input(char *);
 Bool prompt();
 
 Shell *get_shell() {
@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **env) {
   // Flush after every printf
   setbuf(stdout, NULL);
   if (argc > 1) {
-    printf("Usafe: %s\n", argv[0]);
+    printf("Usage: %s\n", argv[0]);
     exit(0);
   }
   init_shell(env);
@@ -35,27 +35,24 @@ int main(int argc, char **argv, char **env) {
 }
 
 Bool prompt() {
+  Prompt prompt;
   printf("$ ");
-  char *input = get_input();
-  Prompt prompt = parse(input);
-  int retval = execute(prompt);
-  free(input);
-  return retval;
+  get_input(prompt.input);
+  parse(&prompt);
+  return execute(prompt);
 }
 
-char *get_input() {
+void get_input(char *input) {
   // Refactor, this value is arbitrary
-  char *input = (char *)malloc(1000);
 
-  fgets(input, 1000, stdin);
+  fgets(input, PROMPT_MAX_SIZE, stdin);
 
   int len = strlen(input);
+  // TODO: Handle error when no \n because prompt is too big
   for (int i = 0; i < len; i++) {
     if (input[i] == '\n') {
       input[i] = '\0';
       break;
     }
   }
-
-  return input;
 }

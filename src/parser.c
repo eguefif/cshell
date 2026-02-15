@@ -16,22 +16,19 @@ Command get_command(Token token) {
   return cmd;
 }
 
-Prompt parse(char *input) {
-  Token *tokens = tokenize(input);
+void parse(Prompt *prompt) {
+  Token *tokens = tokenize(prompt->input);
   int count = 1;
   Command cmd = get_command(tokens[0]);
-  Token *params = (Token *)malloc(sizeof(Token) * 100);
 
-  while (1) {
+  while (count <= MAX_PARAMS) {
     if (tokens[count].type == EOP) {
       break;
     }
-    params[count - 1] = tokens[count];
+    prompt->params[count - 1] = tokens[count];
     count++;
   }
-
-  Prompt p = {cmd, params, count - 1};
-
+  prompt->cmd = cmd;
+  prompt->params_size = count - 1;
   free(tokens);
-  return p;
 }

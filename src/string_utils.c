@@ -25,8 +25,11 @@ Bool is_whitespace(char c) { return c == ' ' || c == '\t' || c == '\n'; }
 // Allocate and copy a string
 // The pointer that is returned must be freed manually
 char *strdeepcopy(char *source) {
-  char *target = malloc(strlen(source) + 1);
+  size_t target_size = strlen(source) + 1;
+  char *target = malloc(target_size);
   target[strlen(source)] = '\0';
-  strncpy(target, source, strlen(source));
+  // SAFETY: It is safe as we created a buffer big enough
+  // from the source size
+  memcpy(target, source, target_size);
   return target;
 }

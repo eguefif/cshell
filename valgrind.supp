@@ -42,12 +42,6 @@
    obj:/bin/*
 }
 {
-   bin_exec_param
-   Memcheck:Param
-   ...
-   obj:/bin/*
-}
-{
    bin_exec_free
    Memcheck:Free
    ...
@@ -92,12 +86,6 @@
 {
    usr_bin_exec_value
    Memcheck:Value8
-   ...
-   obj:/usr/bin/*
-}
-{
-   usr_bin_exec_param
-   Memcheck:Param
    ...
    obj:/usr/bin/*
 }
@@ -150,12 +138,6 @@
    obj:/lib/*
 }
 {
-   lib_param
-   Memcheck:Param
-   ...
-   obj:/lib/*
-}
-{
    lib_free
    Memcheck:Free
    ...
@@ -200,12 +182,6 @@
 {
    usr_lib_value
    Memcheck:Value8
-   ...
-   obj:/usr/lib/*
-}
-{
-   usr_lib_param
-   Memcheck:Param
    ...
    obj:/usr/lib/*
 }
