@@ -1,8 +1,6 @@
 #include "shell.h"
 
-// TODO: handle error
-
-void get_input(char *);
+Result get_input(char *);
 bool prompt();
 
 Shell *get_shell() {
@@ -36,22 +34,38 @@ int main(int argc, char **argv, char **env) {
 bool prompt() {
   Prompt prompt;
   printf("$ ");
-  get_input(prompt.input);
-  parse(&prompt);
-  return execute(prompt);
+  Result res = get_input(prompt.input);
+  if (res == OK ) {
+    parse(&prompt);
+    return execute(prompt);
+  } else {
+    return handle_error(res);
+  }
 }
 
-void get_input(char *input) {
+Result get_input(char *input) {
   // Refactor, this value is arbitrary
 
   fgets(input, PROMPT_MAX_SIZE, stdin);
 
   size_t len = strlen(input);
-  // TODO: Handle error when no \n because prompt is too big
   for (size_t i = 0; i < len; i++) {
     if (input[i] == '\n') {
       input[i] = '\0';
-      break;
+      return OK;
     }
   }
+  return INPUTTOOLONG;
+}
+
+bool handle_error(Result error) {
+  switch (error) {
+    case INPUTTOOLONG: printf("Error: input is too long\n");
+                       break;
+    case NOEOL: printf("Error: no end of line\n");
+    case OK:
+    default:
+  }
+  return true;
+
 }

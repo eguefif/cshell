@@ -3,12 +3,13 @@
 void exec_echo(Prompt);
 void exec_type(Token);
 void handle_type_program(Token token);
-void exec_program(Prompt);
+Result exec_program(Prompt);
 
 bool execute(Prompt prompt) {
+  Result res = OK;
   switch (prompt.cmd.cmd) {
   case PROGRAM:
-    exec_program(prompt);
+    res = exec_program(prompt);
     break;
   case ECHO:
     exec_echo(prompt);
@@ -21,6 +22,9 @@ bool execute(Prompt prompt) {
   case NOTFOUND:
     printf("%s: command not found\n", prompt.cmd.token.token);
     break;
+  }
+  if (res != OK) {
+    handle_error(res);
   }
   return true;
 }
@@ -75,12 +79,11 @@ char **get_params_from_tokens(Token *tokens, size_t param_size) {
   return params;
 }
 
-// TODO: handle path too long error
-void exec_program(Prompt prompt) {
+Result exec_program(Prompt prompt) {
   char **params = get_params_from_tokens(prompt.params, prompt.params_size);
   params[0] = prompt.cmd.token.token;
-  char execpath[250];
-  if (find_exec(prompt.cmd.token, execpath, 250) == true) {
+  char execpath[MAX_SIZE_PATH];
+  if (find_exec(prompt.cmd.token, execpath, MAX_SIZE_PATH) == true) {
     extern char **environ;
     int pid = fork();
     if (pid == 0) {
@@ -94,4 +97,5 @@ void exec_program(Prompt prompt) {
   } else {
     printf("%s: command not found\n", prompt.cmd.token.token);
   }
+  return OK;
 }

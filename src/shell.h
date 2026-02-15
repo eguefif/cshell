@@ -2,6 +2,7 @@
 #define SHELL_H
 
 #define PROMPT_MAX_SIZE 150
+#define MAX_SIZE_PATH 1000
 #define MAX_PARAMS 150
 
 #include <stdbool.h>
@@ -15,6 +16,10 @@
 #include <errno.h>
 
 // Tokenizer and Parser functions
+
+typedef enum myResult {
+  OK, NOEOL, INPUTTOOLONG
+} Result;
 
 typedef enum myTokenType {
   STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, 
@@ -64,4 +69,8 @@ char *trim_start(char *str);
 // File utils
 bool is_exec_exist(char*);
 bool find_exec(Token, char *, size_t);
+
+
+// Error handling
+bool handle_error(Result);
 #endif
