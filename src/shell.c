@@ -58,6 +58,9 @@ bool handle_error(Result error, Prompt *prompt) {
     case CMDNOTFOUND:
       printf("%s: command not found\n", prompt->cmd.token.token);
       break;
+    case CWDERROR:
+      printf("%s: cwd failed\n", prompt->cmd.token.token);
+      break;
     case OK:
     default:
   }

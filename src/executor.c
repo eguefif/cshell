@@ -2,6 +2,7 @@
 
 void exec_echo(Prompt*);
 void exec_type(Token);
+Result exec_pwd();
 void handle_type_program(Token token);
 
 bool execute(Prompt *prompt) {
@@ -12,6 +13,9 @@ bool execute(Prompt *prompt) {
     break;
   case ECHO:
     exec_echo(prompt);
+    break;
+  case PWD:
+    res = exec_pwd();
     break;
   case EXIT:
     return false;
@@ -44,6 +48,9 @@ void exec_type(Token token) {
   case EXIT:
     printf("exit is a shell builtin\n");
     break;
+  case PWD:
+    printf("pwd is a shell builtin\n");
+    break;
   case TYPE:
     printf("type is a shell builtin\n");
     break;
@@ -63,8 +70,17 @@ void handle_type_program(Token token) {
   char fullpath[250];
 
   if (find_exec(token, fullpath, 250)) {
-    printf("%s: not found\n", token.token);
-  } else {
     printf("%s is %s\n", token.token, fullpath);
+  } else {
+    printf("%s: not found\n", token.token);
   }
+}
+
+Result exec_pwd() {
+  char path[MAX_SIZE_PATH];
+  if (getcwd(path, MAX_SIZE_PATH) == NULL) {
+    return CWDERROR;
+  }
+  printf("%s\n", path);
+  return OK;
 }

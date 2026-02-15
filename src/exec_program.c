@@ -3,15 +3,15 @@
 char **get_params_from_tokens(Token *, size_t);
 
 Result exec_program(Prompt *prompt) {
-  char **params = get_params_from_tokens(prompt->params, prompt->params_size);
-  extern char **environ;
 
-  params[0] = prompt->cmd.token.token;
   char execpath[MAX_SIZE_PATH];
 
   if (find_exec(prompt->cmd.token, execpath, MAX_SIZE_PATH) == true) {
     int pid = fork();
     if (pid == 0) {
+      char **params = get_params_from_tokens(prompt->params, prompt->params_size);
+      params[0] = prompt->cmd.token.token;
+      extern char **environ;
       execve(execpath, params, environ);
       handle_error(EXECVE, prompt);
       exit(0);

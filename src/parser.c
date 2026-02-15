@@ -26,6 +26,8 @@ Command get_command(Token token) {
     cmd.cmd = EXIT;
   } else if (strncmp(token.token, "echo", 4) == 0) {
     cmd.cmd = ECHO;
+  } else if (strncmp(token.token, "pwd", 3) == 0) {
+    cmd.cmd = PWD;
   } else if (strncmp(token.token, "type", 4) == 0) {
     cmd.cmd = TYPE;
   } else if (token.type == STRING) {
