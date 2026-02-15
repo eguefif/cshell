@@ -6,5 +6,8 @@ TARGET = shell
 $(TARGET): $(SRC)
 	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
 
+valgrind: $(TARGET)
+	valgrind --suppressions=valgrind.supp ./$(TARGET)
+
 clean:
 	rm -f $(TARGET)

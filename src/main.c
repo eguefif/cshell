@@ -1,5 +1,8 @@
 #include "shell.h"
 
+// TODO: replace all int related to a size by size_t
+// TODO: handle error
+
 char *get_input();
 Bool prompt();
 
@@ -31,6 +34,15 @@ int main(int argc, char **argv, char **env) {
   return 0;
 }
 
+Bool prompt() {
+  printf("$ ");
+  char *input = get_input();
+  Prompt prompt = parse(input);
+  int retval = execute(prompt);
+  free(input);
+  return retval;
+}
+
 char *get_input() {
   // Refactor, this value is arbitrary
   char *input = (char *)malloc(1000);
@@ -46,13 +58,4 @@ char *get_input() {
   }
 
   return input;
-}
-
-Bool prompt() {
-  printf("$ ");
-  char *input = get_input();
-  Prompt prompt = parse(input);
-  int retval = execute(prompt);
-  free(input);
-  return retval;
 }

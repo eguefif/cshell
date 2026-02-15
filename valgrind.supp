@@ -1,0 +1,217 @@
+# Suppress all errors from executables in /bin, /usr/bin and shared libraries in /lib, /usr/lib
+{
+   bin_exec_leak
+   Memcheck:Leak
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_addr
+   Memcheck:Addr1
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_addr2
+   Memcheck:Addr2
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_addr4
+   Memcheck:Addr4
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_addr8
+   Memcheck:Addr8
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_cond
+   Memcheck:Cond
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_value
+   Memcheck:Value8
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_param
+   Memcheck:Param
+   ...
+   obj:/bin/*
+}
+{
+   bin_exec_free
+   Memcheck:Free
+   ...
+   obj:/bin/*
+}
+{
+   usr_bin_exec_leak
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_addr
+   Memcheck:Addr1
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_addr2
+   Memcheck:Addr2
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_addr4
+   Memcheck:Addr4
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_addr8
+   Memcheck:Addr8
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_cond
+   Memcheck:Cond
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_value
+   Memcheck:Value8
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_param
+   Memcheck:Param
+   ...
+   obj:/usr/bin/*
+}
+{
+   usr_bin_exec_free
+   Memcheck:Free
+   ...
+   obj:/usr/bin/*
+}
+{
+   lib_leak
+   Memcheck:Leak
+   ...
+   obj:/lib/*
+}
+{
+   lib_addr
+   Memcheck:Addr1
+   ...
+   obj:/lib/*
+}
+{
+   lib_addr2
+   Memcheck:Addr2
+   ...
+   obj:/lib/*
+}
+{
+   lib_addr4
+   Memcheck:Addr4
+   ...
+   obj:/lib/*
+}
+{
+   lib_addr8
+   Memcheck:Addr8
+   ...
+   obj:/lib/*
+}
+{
+   lib_cond
+   Memcheck:Cond
+   ...
+   obj:/lib/*
+}
+{
+   lib_value
+   Memcheck:Value8
+   ...
+   obj:/lib/*
+}
+{
+   lib_param
+   Memcheck:Param
+   ...
+   obj:/lib/*
+}
+{
+   lib_free
+   Memcheck:Free
+   ...
+   obj:/lib/*
+}
+{
+   usr_lib_leak
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_addr
+   Memcheck:Addr1
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_addr2
+   Memcheck:Addr2
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_addr4
+   Memcheck:Addr4
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_addr8
+   Memcheck:Addr8
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_cond
+   Memcheck:Cond
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_value
+   Memcheck:Value8
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_param
+   Memcheck:Param
+   ...
+   obj:/usr/lib/*
+}
+{
+   usr_lib_free
+   Memcheck:Free
+   ...
+   obj:/usr/lib/*
+}
