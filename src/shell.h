@@ -18,7 +18,8 @@
 // Tokenizer and Parser functions
 
 typedef enum myResult {
-  OK, NOEOL, INPUTTOOLONG, CMDNOTFOUND, EXECVE, CWDERROR
+  OK, NOEOL, INPUTTOOLONG, CMDNOTFOUND, EXECVE, CWDERROR,
+  CDPARAMS, CDERROR
 } Result;
 
 typedef enum myTokenType {
@@ -32,7 +33,7 @@ typedef struct myToken {
 } Token;
 
 typedef enum myCommandType {
-  PWD, TYPE, ECHO, EXIT, NOTFOUND, PROGRAM
+  CD, PWD, TYPE, ECHO, EXIT, NOTFOUND, PROGRAM
 } CommandType;
 
 typedef struct myCommand {

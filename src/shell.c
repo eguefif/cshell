@@ -61,6 +61,16 @@ bool handle_error(Result error, Prompt *prompt) {
     case CWDERROR:
       printf("%s: cwd failed\n", prompt->cmd.token.token);
       break;
+    case CDPARAMS:
+      printf("cd: wrong number of argument: cd PATH\n");
+      break;
+    case CDERROR:
+      if (prompt->params_size >= 1) {
+        printf("cd: %s: No such file or directory\n", prompt->params[0].token);
+      } else {
+        printf("cd: No such file or directory\n");
+      }
+      break;
     case OK:
     default:
   }

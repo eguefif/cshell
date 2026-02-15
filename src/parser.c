@@ -30,6 +30,8 @@ Command get_command(Token token) {
     cmd.cmd = PWD;
   } else if (strncmp(token.token, "type", 4) == 0) {
     cmd.cmd = TYPE;
+  } else if (strncmp(token.token, "cd", 2) == 0) {
+    cmd.cmd = CD;
   } else if (token.type == STRING) {
     cmd.cmd = PROGRAM;
   }

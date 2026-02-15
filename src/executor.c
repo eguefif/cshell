@@ -2,6 +2,7 @@
 
 void exec_echo(Prompt*);
 void exec_type(Token);
+Result exec_cd(Prompt*);
 Result exec_pwd();
 void handle_type_program(Token token);
 
@@ -16,6 +17,9 @@ bool execute(Prompt *prompt) {
     break;
   case PWD:
     res = exec_pwd();
+    break;
+  case CD:
+    res = exec_cd(prompt);
     break;
   case EXIT:
     return false;
@@ -83,4 +87,16 @@ Result exec_pwd() {
   }
   printf("%s\n", path);
   return OK;
+}
+
+Result exec_cd(Prompt *prompt) {
+  if (prompt->params_size != 1) {
+  return CDPARAMS;
+  }
+
+  char *path = prompt->params[0].token;
+  if (chdir(path) == 0) {
+    return OK;
+  }
+  return CDERROR;
 }
