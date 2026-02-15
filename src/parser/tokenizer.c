@@ -3,6 +3,7 @@
 size_t skip_white_char(char *);
 char *get_string(char *);
 TokenType get_token_type(char *);
+Token get_quote_token(char *);
 
 Token *tokenize(char *input) {
   Token *tokens = (Token *)malloc(sizeof(Token) * 200);
@@ -14,9 +15,9 @@ Token *tokenize(char *input) {
   while (input[cursor] != '\0' && cursor < PROMPT_MAX_SIZE) {
     switch (input[cursor]) {
     case '\'':
-      tokens[token_count] = (Token){QUOTE, &input[cursor]};
+      tokens[token_count] = get_quote_token(&input[cursor]);
+      cursor+= strlen(tokens[token_count].token);
       token_count++;
-      cursor++;
       break;
     default:
       str = get_string(&input[cursor]);
@@ -46,8 +47,14 @@ size_t skip_white_char(char *input) {
 
 char *get_string(char *input) {
   size_t cursor = 0;
+  size_t cursor2 = 0;
   while (!is_whitespace(input[cursor])) {
+    if (input[cursor] == '\'' && input[cursor + 1] != '\0' && input[cursor + 1] =='\'') {
+      cursor2+=2;
+    }
+    input[cursor] = input[cursor2];
     cursor++;
+    cursor2++;
   }
   input[cursor] = '\0';
   return input;
@@ -72,3 +79,7 @@ TokenType get_token_type(char *value) {
   return STRING;
 }
 
+
+Token get_quote_token(char *input) {
+
+}
