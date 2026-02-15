@@ -59,7 +59,7 @@ void handle_type_program(Token token) {
   // look into the PATH env for a list of paths
   // then check where is the program
 
-  char *full_path = malloc(250);
+  char full_path[250];
   char *paths = strdeepcopy(getenv("PATH"));
   char *path = strtok(paths, ":");
   while (path != NULL) {
@@ -80,4 +80,5 @@ void handle_type_program(Token token) {
   } else {
     printf("%s is %s\n", token.token, full_path);
   }
+  free(paths);
 }
