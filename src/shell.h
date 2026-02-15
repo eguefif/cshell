@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 // Tokenizer and Parser functions
 
@@ -56,5 +57,5 @@ char *trim_start(char *str);
 
 
 // File utils
-Bool is_file_exist(char*);
+Bool is_exec_exist(char*);
 #endif

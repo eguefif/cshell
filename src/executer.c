@@ -69,7 +69,7 @@ void handle_type_program(Token token) {
     memcpy(full_path, path, strlen(path) + 1);
     strcat(full_path, "/\0");
     strncat(full_path, token.token, strlen(token.token));
-    if (is_file_exist(full_path)) {
+    if (!is_exec_exist(full_path)) {
       break;
     }
     path = strtok(NULL, ":");
