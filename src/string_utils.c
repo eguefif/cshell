@@ -20,7 +20,7 @@ char *trim_start(char *str) {
   return str;
 }
 
-Bool is_whitespace(char c) { return c == ' ' || c == '\t' || c == '\n'; }
+bool is_whitespace(char c) { return c == ' ' || c == '\t' || c == '\n'; }
 
 // Allocate and copy a string
 // The pointer that is returned must be freed manually

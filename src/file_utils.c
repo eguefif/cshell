@@ -1,8 +1,8 @@
 #include "shell.h"
 
 // Find an executble and fill full_path with the path+exec name
-// Return TRUE if found and FALSE if no executable was found.
-Bool find_exec(Token token, char *full_path, size_t path_size) {
+// Return true if found and false if no executable was found.
+bool find_exec(Token token, char *full_path, size_t path_size) {
   char *paths = strdeepcopy(getenv("PATH"));
   char *path = strtok(paths, ":");
   while (path != NULL) {
@@ -19,20 +19,20 @@ Bool find_exec(Token token, char *full_path, size_t path_size) {
     full_path[0] = '\0';
   }
   if (full_path[0] == '\0') {
-    return FALSE;
+    return false;
   } else {
-    return TRUE;
+    return true;
   }
   free(paths);
 }
 
-Bool is_exec_exist(char *path) {
+bool is_exec_exist(char *path) {
   struct stat buffer;
   if (stat(path, &buffer)) {
-    return FALSE;
+    return false;
   };
   return (S_ISREG(buffer.st_mode) &&
           ((buffer.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) != 0))
-             ? TRUE
-             : FALSE;
+             ? true
+             : false;
 }

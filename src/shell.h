@@ -4,6 +4,7 @@
 #define PROMPT_MAX_SIZE 150
 #define MAX_PARAMS 150
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,11 +15,6 @@
 #include <errno.h>
 
 // Tokenizer and Parser functions
-
-// TODO: Refactor TRUE and FALSE to to true false and bool
-typedef enum myBool {
-  TRUE, FALSE,
-} Bool;
 
 typedef enum myTokenType {
   STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, 
@@ -53,19 +49,19 @@ typedef struct myShell{
 Shell *get_shell();
 void parse(Prompt*);
 Token *tokenize(char*);
-Bool execute(Prompt prompt);
+bool execute(Prompt prompt);
 void free_prompt(Prompt);
 
 Command get_command(Token token);
 
 
 // String utils
-Bool is_whitespace(char);
+bool is_whitespace(char);
 char *strdeepcopy(char *source);
 char *trim_start(char *str);
 
 
 // File utils
-Bool is_exec_exist(char*);
-Bool find_exec(Token, char *, size_t);
+bool is_exec_exist(char*);
+bool find_exec(Token, char *, size_t);
 #endif

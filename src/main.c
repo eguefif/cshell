@@ -4,7 +4,7 @@
 // TODO: handle error
 
 void get_input(char *);
-Bool prompt();
+bool prompt();
 
 Shell *get_shell() {
   static Shell shell = {0};
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env) {
   init_shell(env);
 
   while (1) {
-    if (prompt() == FALSE) {
+    if (prompt() == false) {
       break;
     }
   }
@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **env) {
   return 0;
 }
 
-Bool prompt() {
+bool prompt() {
   Prompt prompt;
   printf("$ ");
   get_input(prompt.input);

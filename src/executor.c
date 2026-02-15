@@ -5,7 +5,7 @@ void exec_type(Token);
 void handle_type_program(Token token);
 void exec_program(Prompt);
 
-Bool execute(Prompt prompt) {
+bool execute(Prompt prompt) {
   switch (prompt.cmd.cmd) {
   case PROGRAM:
     exec_program(prompt);
@@ -14,7 +14,7 @@ Bool execute(Prompt prompt) {
     exec_echo(prompt);
     break;
   case EXIT:
-    return FALSE;
+    return false;
   case TYPE:
     exec_type(prompt.params[0]);
     break;
@@ -22,7 +22,7 @@ Bool execute(Prompt prompt) {
     printf("%s: command not found\n", prompt.cmd.token.token);
     break;
   }
-  return TRUE;
+  return true;
 }
 
 void exec_echo(Prompt prompt) {
@@ -80,7 +80,7 @@ void exec_program(Prompt prompt) {
   char **params = get_params_from_tokens(prompt.params, prompt.params_size);
   params[0] = prompt.cmd.token.token;
   char execpath[250];
-  if (find_exec(prompt.cmd.token, execpath, 250) == TRUE) {
+  if (find_exec(prompt.cmd.token, execpath, 250) == true) {
     extern char **environ;
     int pid = fork();
     if (pid == 0) {
