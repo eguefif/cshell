@@ -26,7 +26,7 @@ bool execute(Prompt prompt) {
 }
 
 void exec_echo(Prompt prompt) {
-  for (int i = 0; i < prompt.params_size - 1; i++) {
+  for (size_t i = 0; i < prompt.params_size - 1; i++) {
     printf("%s ", prompt.params[i].token);
   }
   printf("%s\n", prompt.params[prompt.params_size - 1].token);

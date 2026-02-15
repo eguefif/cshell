@@ -39,7 +39,7 @@ typedef struct myPrompt {
   char input[PROMPT_MAX_SIZE];
   Command cmd;
   Token params[MAX_PARAMS];
-  int params_size;
+  size_t params_size;
 } Prompt;
 
 typedef struct myShell{

@@ -1,7 +1,7 @@
 #include "shell.h"
 
-int find_first_whitespace(char *str) {
-  int cursor = 0;
+size_t find_first_whitespace(char *str) {
+  size_t cursor = 0;
 
   while (str[cursor] != '\0' && !is_whitespace(str[cursor])) {
     cursor++;
@@ -10,8 +10,8 @@ int find_first_whitespace(char *str) {
 }
 
 char *trim_start(char *str) {
-  int index = find_first_whitespace(str);
-  int cursor = 0;
+  size_t index = find_first_whitespace(str);
+  size_t cursor = 0;
   while (str[index] != '\0') {
     str[cursor] = str[index];
     index++;

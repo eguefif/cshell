@@ -1,6 +1,5 @@
 #include "shell.h"
 
-// TODO: replace all int related to a size by size_t
 // TODO: handle error
 
 void get_input(char *);
@@ -47,9 +46,9 @@ void get_input(char *input) {
 
   fgets(input, PROMPT_MAX_SIZE, stdin);
 
-  int len = strlen(input);
+  size_t len = strlen(input);
   // TODO: Handle error when no \n because prompt is too big
-  for (int i = 0; i < len; i++) {
+  for (size_t i = 0; i < len; i++) {
     if (input[i] == '\n') {
       input[i] = '\0';
       break;

@@ -1,13 +1,13 @@
 #include "shell.h"
 
-int skip_white_char(char *);
+size_t skip_white_char(char *);
 char *get_string(char *);
 TokenType get_token_type(char *);
 
 Token *tokenize(char *input) {
   Token *tokens = (Token *)malloc(sizeof(Token) * 200);
-  int cursor = 0;
-  int token_count = 0;
+  size_t cursor = 0;
+  size_t token_count = 0;
   char *str;
 
   cursor = skip_white_char(input);
@@ -37,8 +37,8 @@ Token *tokenize(char *input) {
 }
 
 
-int skip_white_char(char *input) {
-  int cursor = 0;
+size_t skip_white_char(char *input) {
+  size_t cursor = 0;
   while (is_whitespace(input[cursor]) && !(input[cursor] == '\0')) {
     cursor++;
   }
@@ -46,7 +46,7 @@ int skip_white_char(char *input) {
 }
 
 char *get_string(char *input) {
-  int cursor = 0;
+  size_t cursor = 0;
   while (!is_whitespace(input[cursor])) {
     cursor++;
   }
