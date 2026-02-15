@@ -12,7 +12,7 @@ bool find_exec(Token token, char *full_path, size_t path_size) {
     memcpy(full_path, path, strlen(path) + 1);
     strcat(full_path, "/\0");
     strncat(full_path, token.token, path_size - (strlen(path) + 1));
-    if (!is_exec_exist(full_path)) {
+    if (is_exec_exist(full_path)) {
       break;
     }
     path = strtok(NULL, ":");

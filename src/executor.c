@@ -1,13 +1,12 @@
 #include "shell.h"
 
-void exec_echo(Prompt);
+void exec_echo(Prompt*);
 void exec_type(Token);
 void handle_type_program(Token token);
-Result exec_program(Prompt);
 
-bool execute(Prompt prompt) {
+bool execute(Prompt *prompt) {
   Result res = OK;
-  switch (prompt.cmd.cmd) {
+  switch (prompt->cmd.cmd) {
   case PROGRAM:
     res = exec_program(prompt);
     break;
@@ -17,23 +16,23 @@ bool execute(Prompt prompt) {
   case EXIT:
     return false;
   case TYPE:
-    exec_type(prompt.params[0]);
+    exec_type(prompt->params[0]);
     break;
   case NOTFOUND:
-    printf("%s: command not found\n", prompt.cmd.token.token);
+    printf("%s: command not found\n", prompt->cmd.token.token);
     break;
   }
   if (res != OK) {
-    handle_error(res);
+    handle_error(res, prompt);
   }
   return true;
 }
 
-void exec_echo(Prompt prompt) {
-  for (size_t i = 0; i < prompt.params_size - 1; i++) {
-    printf("%s ", prompt.params[i].token);
+void exec_echo(Prompt *prompt) {
+  for (size_t i = 0; i < prompt->params_size - 1; i++) {
+    printf("%s ", prompt->params[i].token);
   }
-  printf("%s\n", prompt.params[prompt.params_size - 1].token);
+  printf("%s\n", prompt->params[prompt->params_size - 1].token);
 }
 
 void exec_type(Token token) {
@@ -68,34 +67,4 @@ void handle_type_program(Token token) {
   } else {
     printf("%s is %s\n", token.token, fullpath);
   }
-}
-
-char **get_params_from_tokens(Token *tokens, size_t param_size) {
-  char **params = (char **)malloc(sizeof(char *) * param_size + 2);
-  for (size_t i = 1; i < param_size + 1; i++) {
-    params[i] = tokens[i - 1].token;
-  }
-  params[param_size + 1] = NULL;
-  return params;
-}
-
-Result exec_program(Prompt prompt) {
-  char **params = get_params_from_tokens(prompt.params, prompt.params_size);
-  params[0] = prompt.cmd.token.token;
-  char execpath[MAX_SIZE_PATH];
-  if (find_exec(prompt.cmd.token, execpath, MAX_SIZE_PATH) == true) {
-    extern char **environ;
-    int pid = fork();
-    if (pid == 0) {
-      execve(execpath, params, environ);
-      printf("error %s\n", strerror(errno));
-      exit(0);
-    } else {
-      int stat_loc;
-      waitpid(pid, &stat_loc, 0);
-    }
-  } else {
-    printf("%s: command not found\n", prompt.cmd.token.token);
-  }
-  return OK;
 }

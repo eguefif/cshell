@@ -1,20 +1,6 @@
 #include "shell.h"
 
-Command get_command(Token token) {
-  Command cmd = {NOTFOUND, token};
-
-  if (strncmp(token.token, "exit", 4) == 0) {
-    cmd.cmd = EXIT;
-  } else if (strncmp(token.token, "echo", 4) == 0) {
-    cmd.cmd = ECHO;
-  } else if (strncmp(token.token, "type", 4) == 0) {
-    cmd.cmd = TYPE;
-  } else if (token.type == STRING) {
-    cmd.cmd = PROGRAM;
-  }
-
-  return cmd;
-}
+Command get_command(Token);
 
 void parse(Prompt *prompt) {
   Token *tokens = tokenize(prompt->input);
@@ -32,3 +18,20 @@ void parse(Prompt *prompt) {
   prompt->params_size = count - 1;
   free(tokens);
 }
+
+Command get_command(Token token) {
+  Command cmd = {NOTFOUND, token};
+
+  if (strncmp(token.token, "exit", 4) == 0) {
+    cmd.cmd = EXIT;
+  } else if (strncmp(token.token, "echo", 4) == 0) {
+    cmd.cmd = ECHO;
+  } else if (strncmp(token.token, "type", 4) == 0) {
+    cmd.cmd = TYPE;
+  } else if (token.type == STRING) {
+    cmd.cmd = PROGRAM;
+  }
+
+  return cmd;
+}
+

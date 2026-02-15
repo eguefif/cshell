@@ -18,7 +18,7 @@
 // Tokenizer and Parser functions
 
 typedef enum myResult {
-  OK, NOEOL, INPUTTOOLONG
+  OK, NOEOL, INPUTTOOLONG, CMDNOTFOUND, EXECVE
 } Result;
 
 typedef enum myTokenType {
@@ -51,11 +51,17 @@ typedef struct myShell{
   char **env;
 } Shell;
 
+void run_main();
+Shell *get_shell();
+void init_shell(char **env);
+
 Shell *get_shell();
 void parse(Prompt*);
 Token *tokenize(char*);
-bool execute(Prompt prompt);
+bool execute(Prompt *);
 void free_prompt(Prompt);
+
+Result exec_program(Prompt*);
 
 Command get_command(Token token);
 
@@ -72,5 +78,5 @@ bool find_exec(Token, char *, size_t);
 
 
 // Error handling
-bool handle_error(Result);
+bool handle_error(Result, Prompt*);
 #endif

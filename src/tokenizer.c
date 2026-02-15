@@ -36,7 +36,6 @@ Token *tokenize(char *input) {
   return tokens;
 }
 
-
 size_t skip_white_char(char *input) {
   size_t cursor = 0;
   while (is_whitespace(input[cursor]) && !(input[cursor] == '\0')) {
