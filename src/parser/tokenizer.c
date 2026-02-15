@@ -1,7 +1,9 @@
 #include "parser.h"
-
+//TODO: Refactor by allocating memory for earch token
+//Create an Arena
 size_t get_string(char *, Token*);
 size_t get_quote_token(char *, Token*);
+size_t get_double_quote_token(char *, Token*);
 
 size_t skip_white_char(char *);
 TokenType get_token_type(char *);
@@ -17,6 +19,10 @@ Token *tokenize(char *input) {
     switch (input[cursor]) {
       case '\'':
         cursor += get_quote_token(&input[cursor], &tokens[token_count]);
+        token_count++;
+        break;
+      case '\"':
+        cursor += get_double_quote_token(&input[cursor], &tokens[token_count]);
         token_count++;
         break;
       case '~':
@@ -50,6 +56,8 @@ size_t get_string(char *input, Token *token) {
   while (!is_whitespace(input[cursor2]) && input[cursor2] != '\0') {
     if (input[cursor2] == '\'' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\'') {
       cursor2 += 2;
+    } else if (input[cursor2] == '\"' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\"') {
+      cursor2 += 2;
     } else if (is_stop_token(input[cursor2])) {
       break;
     }
@@ -74,6 +82,25 @@ size_t get_quote_token(char *input, Token *token) {
     if (input[cursor2] == '\'' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\'') {
       cursor2 += 2;
     } else if (input[cursor2] == '\'') {
+      break;
+    }
+    input[cursor] = input[cursor2];
+    cursor++;
+    cursor2++;
+  }
+  token->type = STRING;
+  token->token = &input[0];
+  token->size = cursor;
+  return cursor2 + 1;
+}
+
+size_t get_double_quote_token(char *input, Token *token) {
+  size_t cursor = 0;
+  size_t cursor2 = 1;
+  while (input[cursor2] != '\0') {
+    if (input[cursor2] == '\"' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\"') {
+      cursor2 += 2;
+    } else if (input[cursor2] == '\"') {
       break;
     }
     input[cursor] = input[cursor2];
