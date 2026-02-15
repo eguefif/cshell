@@ -6,6 +6,9 @@ void handle_type_program(Token token);
 
 Bool execute(Prompt prompt) {
   switch (prompt.cmd.cmd) {
+  case PROGRAM:
+    printf("Execute %s\n", prompt.params[0].token);
+    break;
   case ECHO:
     exec_echo(prompt);
     break;
@@ -13,9 +16,6 @@ Bool execute(Prompt prompt) {
     return FALSE;
   case TYPE:
     exec_type(prompt.params[0]);
-    break;
-  case PROGRAM:
-    printf("Execute %s\n", prompt.params[0].token);
     break;
   case NOTFOUND:
     printf("%s: command not found\n", prompt.cmd.token.token);
@@ -47,6 +47,8 @@ void exec_type(Token token) {
     handle_type_program(token);
     break;
   case NOTFOUND:
+    handle_type_program(token);
+    break;
   default:
     printf("%s: not found\n", cmd.token.token);
     break;
@@ -56,4 +58,26 @@ void exec_type(Token token) {
 void handle_type_program(Token token) {
   // look into the PATH env for a list of paths
   // then check where is the program
+
+  char *full_path = malloc(250);
+  char *paths = strdeepcopy(getenv("PATH"));
+  char *path = strtok(paths, ":");
+  while (path != NULL) {
+    if (strlen(path) + strlen(token.token) >= 250) {
+      continue;
+    }
+    memcpy(full_path, path, strlen(path) + 1);
+    strcat(full_path, "/\0");
+    strncat(full_path, token.token, strlen(token.token));
+    if (is_file_exist(full_path)) {
+      break;
+    }
+    path = strtok(NULL, ":");
+    full_path[0] = '\0';
+  }
+  if (full_path[0] == '\0') {
+    printf("%s: not found\n", token.token);
+  } else {
+    printf("%s is %s\n", token.token, full_path);
+  }
 }

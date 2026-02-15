@@ -3,6 +3,16 @@
 char *get_input();
 Bool prompt();
 
+Shell *get_shell() {
+  static Shell shell = {0};
+  return &shell;
+}
+
+void init_shell(char **env) {
+  Shell *shell = get_shell();
+  shell->env = env;
+}
+
 int main() {
   // Flush after every printf
   setbuf(stdout, NULL);

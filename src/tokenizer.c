@@ -1,6 +1,5 @@
 #include "shell.h"
 
-Bool is_whitespace(char);
 int skip_white_char(char *);
 char *get_string(char *);
 
@@ -62,8 +61,6 @@ int skip_white_char(char *input) {
   }
   return cursor;
 }
-
-Bool is_whitespace(char c) { return c == ' ' || c == '\t' || c == '\n'; }
 
 char *get_string(char *input) {
   int cursor = 0;

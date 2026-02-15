@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 // Tokenizer and Parser functions
 
@@ -36,10 +37,24 @@ typedef struct myPrompt {
   int params_size;
 } Prompt;
 
+typedef struct myShell{
+  char **env;
+} Shell;
+
 Prompt parse(char*);
 Token *tokenize(char*);
 Bool execute(Prompt prompt);
+Shell *get_shell();
 
 Command get_command(Token token);
 
+
+// String utils
+Bool is_whitespace(char);
+char *strdeepcopy(char *source);
+char *trim_start(char *str);
+
+
+// File utils
+Bool is_file_exist(char*);
 #endif
