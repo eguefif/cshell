@@ -1,7 +1,7 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include "./parser/parser.h"
+#include "../parser/parser.h"
 
 typedef enum myResult {
   OK, NOEOL, INPUTTOOLONG, CMDNOTFOUND, EXECVE, CWDERROR,

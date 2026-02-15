@@ -1,34 +1,28 @@
 #include "parser.h"
 
+size_t get_string(char *, Token*);
+size_t get_quote_token(char *, Token*);
+
 size_t skip_white_char(char *);
-char *get_string(char *);
 TokenType get_token_type(char *);
-Token get_quote_token(char *);
+bool is_stop_token(char c);
 
 Token *tokenize(char *input) {
   Token *tokens = (Token *)malloc(sizeof(Token) * 200);
   size_t cursor = 0;
   size_t token_count = 0;
-  char *str;
 
-  cursor = skip_white_char(input);
   while (input[cursor] != '\0' && cursor < PROMPT_MAX_SIZE) {
+    cursor += skip_white_char(&input[cursor]);
     switch (input[cursor]) {
-    case '\'':
-      tokens[token_count] = get_quote_token(&input[cursor]);
-      cursor+= strlen(tokens[token_count].token);
-      token_count++;
-      break;
-    default:
-      str = get_string(&input[cursor]);
-      // We add one because str is a pointer to a substring of input
-      // We just replace the first space after the string by \0
-      // The cursor needs to be moved after this \0
-      cursor += strlen(str) + 1;
-      cursor += skip_white_char(input);
-      tokens[token_count] = (Token){STRING, str};
-      token_count++;
-      break;
+      case '\'':
+        cursor += get_quote_token(&input[cursor], &tokens[token_count]);
+        token_count++;
+        break;
+      default:
+        cursor += get_string(&input[cursor], &tokens[token_count]);
+        token_count++;
+        break;
     }
   }
   Token token = {EOP, ""};
@@ -39,26 +33,58 @@ Token *tokenize(char *input) {
 
 size_t skip_white_char(char *input) {
   size_t cursor = 0;
-  while (is_whitespace(input[cursor]) && !(input[cursor] == '\0')) {
+  while (is_whitespace(input[cursor]) && input[cursor] != '\0') {
     cursor++;
   }
   return cursor;
 }
 
-char *get_string(char *input) {
+size_t get_string(char *input, Token *token) {
   size_t cursor = 0;
   size_t cursor2 = 0;
-  while (!is_whitespace(input[cursor])) {
-    if (input[cursor] == '\'' && input[cursor + 1] != '\0' && input[cursor + 1] =='\'') {
-      cursor2+=2;
+  while (!is_whitespace(input[cursor2]) && input[cursor2] != '\0') {
+    if (input[cursor2] == '\'' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\'') {
+      cursor2 += 2;
+    } else if (is_stop_token(input[cursor2])) {
+      break;
     }
     input[cursor] = input[cursor2];
     cursor++;
     cursor2++;
   }
   input[cursor] = '\0';
-  return input;
+  token->type = STRING;
+  token->token = input;
+  if (cursor == cursor2) {
+    return cursor2 + 1;
+  }
+  return cursor2;
 }
+
+
+size_t get_quote_token(char *input, Token *token) {
+  size_t cursor = 0;
+  size_t cursor2 = 1;
+  while (input[cursor2] != '\0') {
+    if (input[cursor2] == '\'' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\'') {
+      cursor2 += 2;
+    } else if (input[cursor2] == '\'') {
+      break;
+    }
+    input[cursor] = input[cursor2];
+    cursor++;
+    cursor2++;
+  }
+  input[cursor] = '\0';
+  token->type = STRING;
+  token->token = &input[0];
+  return cursor2 + 1;
+}
+
+bool is_stop_token(char c) {
+  return c == '\'' || c == '\"' || c == '$' || c == '~';
+}
+
 
 TokenType get_token_type(char *value) {
   if (strncmp(value, "\"", 1) == 0) {
@@ -77,9 +103,4 @@ TokenType get_token_type(char *value) {
     return DOLLAR;
   }
   return STRING;
-}
-
-
-Token get_quote_token(char *input) {
-
 }
