@@ -9,6 +9,8 @@ Command get_command(Token token) {
     cmd.cmd = ECHO;
   } else if (strncmp(token.token, "type", 4) == 0) {
     cmd.cmd = TYPE;
+  } else if (token.type == STRING) {
+    cmd.cmd = PROGRAM;
   }
 
   return cmd;

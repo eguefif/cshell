@@ -13,9 +13,14 @@ void init_shell(char **env) {
   shell->env = env;
 }
 
-int main() {
+int main(int argc, char **argv, char **env) {
   // Flush after every printf
   setbuf(stdout, NULL);
+  if (argc > 1) {
+    printf("Usafe: %s\n", argv[0]);
+    exit(0);
+  }
+  init_shell(env);
 
   while (1) {
     if (prompt() == FALSE) {

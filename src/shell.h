@@ -5,7 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 
 // Tokenizer and Parser functions
 
