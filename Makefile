@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c23
-SRC = $(wildcard src/*.c)
+CFLAGS = -Wall -Wextra -std=c23 -Isrc -Isrc/builtins -Isrc/parsing -Isrc/utils -Isrc/executor
+SRC = $(wildcard src/*.c src/**/*.c)
 TARGET = shell
 
 release: CFLAGS += -O2 -DNDEBUG

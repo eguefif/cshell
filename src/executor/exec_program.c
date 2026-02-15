@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "executor.h"
 
 char **get_params_from_tokens(Token *, size_t);
 
@@ -6,7 +6,7 @@ Result exec_program(Prompt *prompt) {
 
   char execpath[MAX_SIZE_PATH];
 
-  if (find_exec(prompt->cmd.token, execpath, MAX_SIZE_PATH) == true) {
+  if (find_exec(prompt->cmd.token.token, execpath, MAX_SIZE_PATH) == true) {
     int pid = fork();
     if (pid == 0) {
       char **params = get_params_from_tokens(prompt->params, prompt->params_size);

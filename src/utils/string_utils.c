@@ -1,4 +1,6 @@
-#include "shell.h"
+#include <stdlib.h>
+
+#include "utils.h"
 
 size_t find_first_whitespace(char *str) {
   size_t cursor = 0;

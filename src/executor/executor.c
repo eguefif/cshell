@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "executor.h"
 
 void exec_echo(Prompt*);
 void exec_type(Token);
@@ -76,7 +76,7 @@ void exec_type(Token token) {
 void handle_type_program(Token token) {
   char fullpath[250];
 
-  if (find_exec(token, fullpath, 250)) {
+  if (find_exec(token.token, fullpath, 250)) {
     printf("%s is %s\n", token.token, fullpath);
   } else {
     printf("%s: not found\n", token.token);

@@ -1,17 +1,17 @@
-#include "shell.h"
+#include "utils.h"
 
 // Find an executble and fill full_path with the path+exec name
 // Return true if found and false if no executable was found.
-bool find_exec(Token token, char *full_path, size_t path_size) {
+bool find_exec(char *token, char *full_path, size_t path_size) {
   char *paths = strdeepcopy(getenv("PATH"));
   char *path = strtok(paths, ":");
   while (path != NULL) {
-    if (strlen(path) + strlen(token.token) >= path_size) {
+    if (strlen(path) + strlen(token) >= path_size) {
       continue;
     }
     memcpy(full_path, path, strlen(path) + 1);
     strcat(full_path, "/\0");
-    strncat(full_path, token.token, path_size - (strlen(path) + 1));
+    strncat(full_path, token, path_size - (strlen(path) + 1));
     if (is_exec_exist(full_path) == true) {
       break;
     }
