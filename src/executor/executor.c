@@ -37,10 +37,22 @@ bool execute(Prompt *prompt) {
 }
 
 void exec_echo(Prompt *prompt) {
+  char *str;
+
   for (size_t i = 0; i < prompt->params_size - 1; i++) {
-    printf("%s ", prompt->params[i].token);
+    Token token = prompt->params[i];
+    str = malloc(token.size + 1);
+    memcpy(str, token.token, token.size);
+    str[token.size] = '\0';
+    printf("%s ", str);
+    free(str);
   }
-  printf("%s\n", prompt->params[prompt->params_size - 1].token);
+  Token token = prompt->params[prompt->params_size - 1];
+  str = malloc(token.size + 1);
+  memcpy(str, token.token, token.size);
+  str[token.size] = '\0';
+  printf("%s\n", str);
+  free(str);
 }
 
 void exec_type(Token token) {

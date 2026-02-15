@@ -19,13 +19,18 @@ Token *tokenize(char *input) {
         cursor += get_quote_token(&input[cursor], &tokens[token_count]);
         token_count++;
         break;
+      case '~':
+        tokens[token_count] = (Token) {TILD, &input[cursor], 1};
+        cursor += 1;
+        token_count++;
+        break;
       default:
         cursor += get_string(&input[cursor], &tokens[token_count]);
         token_count++;
         break;
     }
   }
-  Token token = {EOP, ""};
+  Token token = {EOP, "", 0};
   tokens[token_count] = token;
 
   return tokens;
@@ -52,11 +57,11 @@ size_t get_string(char *input, Token *token) {
     cursor++;
     cursor2++;
   }
-  input[cursor] = '\0';
   token->type = STRING;
   token->token = input;
+  token->size = cursor;
   if (cursor == cursor2) {
-    return cursor2 + 1;
+    return cursor2;
   }
   return cursor2;
 }
@@ -75,9 +80,9 @@ size_t get_quote_token(char *input, Token *token) {
     cursor++;
     cursor2++;
   }
-  input[cursor] = '\0';
   token->type = STRING;
   token->token = &input[0];
+  token->size = cursor;
   return cursor2 + 1;
 }
 

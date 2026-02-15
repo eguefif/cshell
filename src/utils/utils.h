@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 #include <stdlib.h>
 #include <string.h>

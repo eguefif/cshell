@@ -22,15 +22,15 @@ void parse(Prompt *prompt) {
 Command get_command(Token token) {
   Command cmd = {NOTFOUND, token};
 
-  if (strncmp(token.token, "exit", 4) == 0) {
+  if (strncmp(token.token, "exit", MIN(token.size, 4)) == 0) {
     cmd.cmd = EXIT;
-  } else if (strncmp(token.token, "echo", 4) == 0) {
+  } else if (strncmp(token.token, "echo", MIN(token.size, 4)) == 0) {
     cmd.cmd = ECHO;
-  } else if (strncmp(token.token, "pwd", 3) == 0) {
+  } else if (strncmp(token.token, "pwd", MIN(token.size,3)) == 0) {
     cmd.cmd = PWD;
-  } else if (strncmp(token.token, "type", 4) == 0) {
+  } else if (strncmp(token.token, "type", MIN(token.size, 4)) == 0) {
     cmd.cmd = TYPE;
-  } else if (strncmp(token.token, "cd", 2) == 0) {
+  } else if (strncmp(token.token, "cd", MIN(token.size, 2)) == 0) {
     cmd.cmd = CD;
   } else if (token.type == STRING) {
     cmd.cmd = PROGRAM;

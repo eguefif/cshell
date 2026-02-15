@@ -6,12 +6,14 @@
 
 typedef enum myTokenType {
   STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, 
-  RIGHTREDIRECTION, LEFTREDIRECTION, EOP, DOLLAR
+  RIGHTREDIRECTION, LEFTREDIRECTION, EOP, DOLLAR,
+  TILD
 } TokenType;
 
 typedef struct myToken {
   TokenType type;
   char *token;
+  size_t size;
 } Token;
 
 typedef enum myCommandType {
