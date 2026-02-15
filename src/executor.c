@@ -58,6 +58,9 @@ void exec_type(Token token) {
   case TYPE:
     printf("type is a shell builtin\n");
     break;
+  case CD:
+    printf("cd is a shell builtin\n");
+    break;
   case PROGRAM:
     handle_type_program(token);
     break;
@@ -93,8 +96,17 @@ Result exec_cd(Prompt *prompt) {
   if (prompt->params_size != 1) {
   return CDPARAMS;
   }
-
   char *path = prompt->params[0].token;
+
+  if (prompt->params[0].token[0] == '~') {
+    char *home_path = getenv("HOME");
+    if (home_path == NULL) {
+      return CDNOHOME;
+    }
+    memmove(&path[strlen(home_path) - 1], path, strlen(home_path));
+    memcpy(path, home_path, strlen(home_path));
+  }
+
   if (chdir(path) == 0) {
     return OK;
   }

@@ -19,7 +19,7 @@
 
 typedef enum myResult {
   OK, NOEOL, INPUTTOOLONG, CMDNOTFOUND, EXECVE, CWDERROR,
-  CDPARAMS, CDERROR
+  CDPARAMS, CDERROR, CDNOHOME,
 } Result;
 
 typedef enum myTokenType {
@@ -80,4 +80,5 @@ bool find_exec(Token, char *, size_t);
 
 // Error handling
 bool handle_error(Result, Prompt*);
+
 #endif

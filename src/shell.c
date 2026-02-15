@@ -64,6 +64,9 @@ bool handle_error(Result error, Prompt *prompt) {
     case CDPARAMS:
       printf("cd: wrong number of argument: cd PATH\n");
       break;
+    case CDNOHOME:
+      printf("cd: No Home Directory\n");
+      break;
     case CDERROR:
       if (prompt->params_size >= 1) {
         printf("cd: %s: No such file or directory\n", prompt->params[0].token);
