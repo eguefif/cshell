@@ -7,13 +7,13 @@
 #include <stdio.h>
 
 typedef struct myArena{
-  void *blocks[MAX_BLOCK];
+  char *blocks[MAX_BLOCK];
   size_t block_cursor;
   size_t cursor;
 } Arena;
 
 
-void *afree();
+void afree();
 void *alloc(size_t);
 
 #endif

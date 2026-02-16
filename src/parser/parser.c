@@ -4,19 +4,15 @@ Command get_command(Token);
 
 void parse(Prompt *prompt) {
   Token *tokens = tokenize(prompt->input);
-  int count = 1;
   Command cmd = get_command(tokens[0]);
 
-  while (count <= MAX_PARAMS) {
-    if (tokens[count].type == EOP) {
-      break;
-    }
-    prompt->params[count - 1] = tokens[count];
-    count++;
+  int i = 0;
+  while (tokens[i].type != EOP) {
+    prompt->params[i] = tokens[i];
+    i++;
   }
+  prompt->params_size = i;
   prompt->cmd = cmd;
-  prompt->params_size = count - 1;
-  free(tokens);
 }
 
 Command get_command(Token token) {

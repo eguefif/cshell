@@ -1,6 +1,5 @@
 #include "parser.h"
-//TODO: Refactor by allocating memory for earch token
-//Create an Arena
+
 size_t get_string(char *, Token*);
 size_t get_quote_token(char *, Token*);
 size_t get_double_quote_token(char *, Token*);
@@ -10,9 +9,10 @@ TokenType get_token_type(char *);
 bool is_stop_token(char c);
 
 Token *tokenize(char *input) {
-  Token *tokens = (Token *)malloc(sizeof(Token) * 200);
+  Token *tokens = (Token *)alloc(sizeof(Token) * 200);
   size_t cursor = 0;
   size_t token_count = 0;
+  char *new_token = 0;
 
   while (input[cursor] != '\0' && cursor < PROMPT_MAX_SIZE) {
     cursor += skip_white_char(&input[cursor]);
@@ -26,7 +26,9 @@ Token *tokenize(char *input) {
         token_count++;
         break;
       case '~':
-        tokens[token_count] = (Token) {TILD, &input[cursor], 1};
+        new_token = (char*) alloc(1);
+        memcpy(new_token, "~\0", 2);
+        tokens[token_count] = (Token) {TILD, new_token, 1};
         cursor += 1;
         token_count++;
         break;
@@ -65,12 +67,13 @@ size_t get_string(char *input, Token *token) {
     cursor++;
     cursor2++;
   }
+
+  char *new_token = (char *) alloc(cursor + 1);
+  memcpy(new_token, &input[0], cursor);
+  new_token[cursor] = '\0';
   token->type = STRING;
-  token->token = input;
+  token->token = new_token;
   token->size = cursor;
-  if (cursor == cursor2) {
-    return cursor2;
-  }
   return cursor2;
 }
 
@@ -88,8 +91,11 @@ size_t get_quote_token(char *input, Token *token) {
     cursor++;
     cursor2++;
   }
+  char *new_token = (char *) alloc(cursor + 1);
+  memcpy(new_token, input, cursor);
+  new_token[cursor] = '\0';
   token->type = STRING;
-  token->token = &input[0];
+  token->token = new_token;
   token->size = cursor;
   return cursor2 + 1;
 }
@@ -107,8 +113,11 @@ size_t get_double_quote_token(char *input, Token *token) {
     cursor++;
     cursor2++;
   }
+  char *new_token = (char *) alloc(cursor + 1);
+  memcpy(new_token, input, cursor);
+  new_token[cursor] = '\0';
   token->type = STRING;
-  token->token = &input[0];
+  token->token = new_token;
   token->size = cursor;
   return cursor2 + 1;
 }

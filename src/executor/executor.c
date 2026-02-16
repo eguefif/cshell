@@ -24,7 +24,8 @@ bool execute(Prompt *prompt) {
   case EXIT:
     return false;
   case TYPE:
-    exec_type(prompt->params[0]);
+    // TODO: Handle error no type param
+    exec_type(prompt->params[1]);
     break;
   case NOTFOUND:
     printf("%s: command not found\n", prompt->cmd.token.token);
@@ -37,22 +38,14 @@ bool execute(Prompt *prompt) {
 }
 
 void exec_echo(Prompt *prompt) {
-  char *str;
+  size_t i = 0;
+  Token *tokens = prompt->params;
 
-  for (size_t i = 0; i < prompt->params_size - 1; i++) {
-    Token token = prompt->params[i];
-    str = malloc(token.size + 1);
-    memcpy(str, token.token, token.size);
-    str[token.size] = '\0';
-    printf("%s ", str);
-    free(str);
+  for(i = 1 ; i < prompt->params_size - 1; i++) {
+    Token token = tokens[i];
+    printf("%s ", token.token);
   }
-  Token token = prompt->params[prompt->params_size - 1];
-  str = malloc(token.size + 1);
-  memcpy(str, token.token, token.size);
-  str[token.size] = '\0';
-  printf("%s\n", str);
-  free(str);
+  printf("%s\n", tokens[i].token);
 }
 
 void exec_type(Token token) {
@@ -105,18 +98,18 @@ Result exec_pwd() {
 }
 
 Result exec_cd(Prompt *prompt) {
-  if (prompt->params_size != 1) {
-  return CDPARAMS;
-  }
-  char *path = prompt->params[0].token;
+  char *param_path = prompt->params[1].token;
+  char path[MAX_SIZE_PATH];
 
-  if (prompt->params[0].token[0] == '~') {
+  if (prompt->params_size == 1 || (prompt->params_size >= 2 && prompt->params[1].token[0] == '~')) {
     char *home_path = getenv("HOME");
     if (home_path == NULL) {
       return CDNOHOME;
     }
-    memmove(&path[strlen(home_path) - 1], path, strlen(home_path));
+    // TODO: Handle error path size too large
     memcpy(path, home_path, strlen(home_path));
+    path[strlen(home_path)] = '\0';
+    strncat(path, param_path, strlen(home_path));
   }
 
   if (chdir(path) == 0) {

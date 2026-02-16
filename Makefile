@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c23 -Isrc -Isrc/builtins -Isrc/parsing -Isrc/utils -Isrc/executor
+CFLAGS = -Wall -Wextra -std=c23 -Isrc -Isrc/builtins -Isrc/parsing -Isrc/utils -Isrc/executor -Isrc/arena
 SRC = $(wildcard src/*.c src/**/*.c)
 TARGET = shell
 

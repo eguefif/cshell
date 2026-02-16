@@ -9,6 +9,7 @@ void run_main() {
     if (prompt() == false) {
       break;
     }
+    afree();
   }
 }
 
@@ -27,8 +28,6 @@ bool prompt() {
 }
 
 Result get_input(char *input) {
-  // Refactor, this value is arbitrary
-
   fgets(input, PROMPT_MAX_SIZE, stdin);
 
   size_t len = strlen(input);
@@ -69,8 +68,8 @@ bool handle_error(Result error, Prompt *prompt) {
       printf("cd: No Home Directory\n");
       break;
     case CDERROR:
-      if (prompt->params_size >= 1) {
-        printf("cd: %s: No such file or directory\n", prompt->params[0].token);
+      if (prompt->params_size > 1) {
+        printf("cd: %s: No such file or directory\n", prompt->params[1].token);
       } else {
         printf("cd: No such file or directory\n");
       }

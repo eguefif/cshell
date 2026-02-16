@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <./arena/arena.h>
+
 typedef struct myShell{
   char **env;
 } Shell;

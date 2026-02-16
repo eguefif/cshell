@@ -10,27 +10,27 @@ void *alloc(size_t size) {
       return NULL;
     }
   }
-  void *pointer = &(arena->blocks[arena->cursor]);
+  void *pointer = arena->blocks[arena->block_cursor] + arena->cursor;
   arena->cursor += size;
   return pointer;
 } 
 
-void *afree() {
+void afree() {
   Arena *arena = get_arena();
   arena->block_cursor = 0;
   arena->cursor = 0;
 }
 
 Arena *get_arena() {
-  static Arena *arena = {0};
-  if (arena->blocks == NULL) {
-    printf("Initialized first block");
-    arena->blocks[0] = malloc(BLOCK_SIZE);
+  static Arena arena = {0};
+
+  if (arena.blocks[0] == NULL) {
+    arena.blocks[0] = malloc(BLOCK_SIZE);
   }
-  return arena;
+  return &arena;
 }
 
-int alloc_clock(Arena* arena) {
+int alloc_block(Arena* arena) {
   arena->block_cursor++;
   if (arena->block_cursor >= MAX_BLOCK) {
     return 0;
