@@ -98,8 +98,7 @@ Result exec_pwd() {
 }
 
 Result exec_cd(Prompt *prompt) {
-  char *param_path = prompt->params[1].token;
-  char path[MAX_SIZE_PATH];
+  char path[MAX_SIZE_PATH] = {0};
 
   if (prompt->params_size == 1 || (prompt->params_size >= 2 && prompt->params[1].token[0] == '~')) {
     char *home_path = getenv("HOME");
@@ -107,9 +106,11 @@ Result exec_cd(Prompt *prompt) {
       return CDNOHOME;
     }
     // TODO: Handle error path size too large
-    memcpy(path, home_path, strlen(home_path));
-    path[strlen(home_path)] = '\0';
-    strncat(path, param_path, strlen(home_path));
+    memcpy(path, home_path, strlen(home_path) + 1);
+  }
+  if (prompt->params_size >= 2 && prompt->params[1].token[0] != '~') {
+    char *param_path = prompt->params[1].token;
+    strncat(path, param_path, MAX_SIZE_PATH - strlen(path));
   }
 
   if (chdir(path) == 0) {
