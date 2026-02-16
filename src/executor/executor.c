@@ -43,9 +43,11 @@ void exec_echo(Prompt *prompt) {
 
   for(i = 1 ; i < prompt->params_size - 1; i++) {
     Token token = tokens[i];
-    printf("%s ", token.token);
+    write(1, token.token, token.size);
+    write(1, &" ", 1);
   }
-  printf("%s\n", tokens[i].token);
+  write(1, tokens[i].token, tokens[i].size);
+  write(1, &"\n", 1);
 }
 
 void exec_type(Token token) {

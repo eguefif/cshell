@@ -3,6 +3,7 @@
 size_t get_string(char *, Token*);
 size_t get_quote_token(char *, Token*);
 size_t get_double_quote_token(char *, Token*);
+size_t escape_char(char *, Token*);
 
 size_t skip_white_char(char *);
 TokenType get_token_type(char *);
@@ -60,6 +61,9 @@ size_t get_string(char *input, Token *token) {
       cursor2 += 2;
     } else if (input[cursor2] == '\"' && input[cursor2 + 1] != '\0' && input[cursor2 + 1] =='\"') {
       cursor2 += 2;
+    }  else if (input[cursor2] == '\\') {
+      cursor2 += 1;
+
     } else if (is_stop_token(input[cursor2])) {
       break;
     }
@@ -75,6 +79,10 @@ size_t get_string(char *input, Token *token) {
   token->token = new_token;
   token->size = cursor;
   return cursor2;
+}
+
+bool is_stop_token(char c) {
+  return c == '\'' || c == '\"' || c == '$' || c == '~';
 }
 
 
@@ -122,10 +130,6 @@ size_t get_double_quote_token(char *input, Token *token) {
   return cursor2 + 1;
 }
 
-bool is_stop_token(char c) {
-  return c == '\'' || c == '\"' || c == '$' || c == '~';
-}
-
 
 TokenType get_token_type(char *value) {
   if (strncmp(value, "\"", 1) == 0) {
@@ -144,4 +148,21 @@ TokenType get_token_type(char *value) {
     return DOLLAR;
   }
   return STRING;
+}
+
+size_t escape_char(char *input, Token* token) {
+  if (input[1] != '\0') {
+    char *new_token = alloc(2);
+    *new_token = input[1];
+    new_token[1] = '\0';
+    token->size = 1;
+    token->token = new_token;
+    token->type = STRING;
+  } else {
+    token->size = 0;
+    token->token = 0;
+    token->type = EOP;
+    
+  }
+  return 1;
 }
