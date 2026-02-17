@@ -123,6 +123,14 @@ size_t get_double_quote_token(char *input, Token *token) {
       cursor2 += 2;
     } else if (input[cursor2] == '\"') {
       break;
+    } else if (input[cursor2] == '\\') {
+      if (input[cursor2 + 1] != '\0') {
+        switch (input[cursor2 + 1]) {
+          case '"':
+          case '\\':
+            cursor2 ++;
+        }
+      }
     }
     input[cursor] = input[cursor2];
     cursor++;
