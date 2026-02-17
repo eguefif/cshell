@@ -15,9 +15,16 @@ Token *tokenize(char *input) {
   size_t token_count = 0;
   char *new_token = 0;
 
+  cursor += skip_white_char(&input[cursor]);
   while (input[cursor] != '\0' && cursor < PROMPT_MAX_SIZE) {
-    cursor += skip_white_char(&input[cursor]);
     switch (input[cursor]) {
+      case ' ':
+        new_token = (char*) alloc(1);
+        tokens[token_count] = (Token) {SPACE, 0, 0};
+        cursor += 1;
+        token_count++;
+        cursor += skip_white_char(&input[cursor]);
+        break;
       case '\'':
         cursor += get_quote_token(&input[cursor], &tokens[token_count]);
         token_count++;

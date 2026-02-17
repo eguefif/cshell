@@ -7,7 +7,7 @@
 typedef enum myTokenType {
   STRING, DQUOTE, QUOTE, PIPE, NUM, AMPERSAND, 
   RIGHTREDIRECTION, LEFTREDIRECTION, EOP, DOLLAR,
-  TILD
+  TILD, SPACE
 } TokenType;
 
 typedef struct myToken {

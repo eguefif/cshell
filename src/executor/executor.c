@@ -47,7 +47,7 @@ void exec_echo(Prompt *prompt) {
     write(1, &" ", 1);
   }
   write(1, tokens[i].token, tokens[i].size);
-  write(1, &"\n", 1);
+  write(1, &"\n", 2);
 }
 
 void exec_type(Token token) {
